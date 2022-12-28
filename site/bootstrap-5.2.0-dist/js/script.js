@@ -84,7 +84,7 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded"...
   $ajaxUtils.sendGetRequest(
     allCategoriesUrl,
     buildAndShowHomeHTML, // ***** <---- TODO: STEP 1: Substitute [...] ******
-    false); // Explicitly setting the flag to get JSON from server processed into an object literal
+    true); // Explicitly setting the flag to get JSON from server processed into an object literal
 });
   // *** finish **
 
@@ -152,7 +152,7 @@ dk.loadMenuCategories = function () {
 dk.loadMenuItems = function (categoryShort) {
   showLoading("#main-content");
   $ajaxUtils.sendGetRequest(
-    menuItemsUrl + categoryShort,
+    menuItemsUrl + categoryShort + ".json",
     buildAndShowMenuItemsHTML);
 };
 
@@ -228,7 +228,7 @@ function buildAndShowMenuItemsHTML (categoryMenuItems) {
           // Switch CSS class active to menu button
           switchMenuToActive();
 
-          var menuItemsViewHtml =
+          var MenuItemsViewHtml =
             buildMenuItemsViewHtml(categoryMenuItems,
                                    menuItemsTitleHtml,
                                    menuItemHtml);
@@ -244,7 +244,8 @@ function buildAndShowMenuItemsHTML (categoryMenuItems) {
 // build menu items view HTML to be inserted into page
 function buildMenuItemsViewHtml(categoryMenuItems,
                                 menuItemsTitleHtml,
-                                menuItemHtml) {
+                                menuItemHtml,
+                                ) {
 
   menuItemsTitleHtml =
     insertProperty(menuItemsTitleHtml,
@@ -260,7 +261,7 @@ function buildMenuItemsViewHtml(categoryMenuItems,
 
   // Loop over menu items
   var menuItems = categoryMenuItems.menu_items;
-  var catShortName = categoryMenuItems.categoryshort_name;
+  var catShortName = categoryMenuItems.category.short_name;
   for (var i = 0; i < menuItems.length; i++) {
     // Insert menu item values
     var html = menuItemHtml;
@@ -315,7 +316,7 @@ function insertItemPrice(html,
                          priceValue) {
   // If not specified, replace with empty string
   if (!priceValue) {
-    return insertProperty(html, pricePropName, "");;
+    return insertProperty(html, pricePropName, "");
   }
 
   priceValue = "$" + priceValue.toFixed(2);
