@@ -31,7 +31,7 @@ ajaxUtils.sendGetRequest =
                        isJsonResponse); 
       };
     request.open("GET", requestUrl, true);
-    request.send("null"); // for POST only
+    request.send(null); // for POST only
   };
 
 
@@ -61,8 +61,6 @@ function handleResponse(request,
 
 // Expose utility to the global object
 global.$ajaxUtils = ajaxUtils;
+
+
 })(window);
-
-
-
-
